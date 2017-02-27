@@ -5,7 +5,7 @@ require "json"
 class FoundiesApi < Sinatra::Base
 
   before do
-    if request.request_method == 'POST'
+    if request.request_method == 'POST' || request.request_method == 'PUT'
       body_params = request.body.read
       params.merge! JSON.parse(body_params)
     end
@@ -19,8 +19,8 @@ class FoundiesApi < Sinatra::Base
     { users: User.all.map { |user| user.as_json } }.to_json
   end
 
-  get '/user/:id' do
-    { user: User.where(id: params[:id].to_i).first.as_json }.to_json
+  get '/user/:username' do |username|
+    { user: User.by_username(username).as_json }.to_json
   end
 
   post '/users' do
@@ -28,12 +28,14 @@ class FoundiesApi < Sinatra::Base
     { user: user.as_json }.to_json
   end
 
-  put '/user/:id' do
-    "You just updated user id #{params[:id]}"
+  put '/user/:username' do
+    user = User.by_username params[:username]
+    user.update_attributes user_params
+    { user: user.as_json }.to_json
   end
 
-  delete '/user/:id' do
-    "You just deleted user id #{params[:id]}"
+  delete '/user/:username' do |username|
+    "You just deleted user id #{username}"
   end
 
   private

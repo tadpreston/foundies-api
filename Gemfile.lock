@@ -9,6 +9,7 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     bson (4.2.1)
+    bson_ext (1.5.1)
     coderay (1.1.1)
     concurrent-ruby (1.0.4)
     i18n (0.8.1)
@@ -45,6 +46,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bson_ext
   mongoid (~> 6.1.0)
   pry (~> 0.10.4)
   sinatra (~> 1.4, >= 1.4.8)
