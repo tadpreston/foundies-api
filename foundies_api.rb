@@ -30,11 +30,12 @@ class FoundiesApi < Sinatra::Base
 
   put '/user/:username' do
     user = User.by_username params[:username]
-    user.update_attributes user_params
+    user.update user_params
     { user: user.as_json }.to_json
   end
 
   delete '/user/:username' do |username|
+    User.by_username(username).delete
     "You just deleted user id #{username}"
   end
 
